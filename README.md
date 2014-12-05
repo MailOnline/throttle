@@ -50,6 +50,7 @@ elasped added by throttle itself.
 ## TODO
 
 * other kind of throttling for services not necesarily on HTTP, like native ElasticSearch
+* tests: usually I have them first, but is used heavily internally and sort of tested on the field already. Anyhow, I'd like to verify some extreme scenario.
 
 ## License
 
