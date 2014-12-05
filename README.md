@@ -53,6 +53,6 @@ elasped added by throttle itself.
 
 ## License
 
-Copyright © 2014 reborg - Renzo Borgatti
+Copyright © 2014 Mailonline - DMGMedia
 
 Distributed under the Eclipse Public License either version 1.0 or `(at your option)` any later version.
