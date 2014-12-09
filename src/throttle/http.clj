@@ -1,5 +1,6 @@
 (ns throttle.http
   (:require [org.httpkit.client :as httpkit]
+            [clojure.tools.logging :as log]
             [clojure.core.async :as async :refer [<!! >! go go-loop timeout chan alt!!]])
   (:refer-clojure :exclude [get])
   (:import [java.util.concurrent ThreadPoolExecutor LinkedBlockingQueue TimeUnit]
@@ -50,6 +51,7 @@
    (let [out (chan)
          res (atom [])
          wait (long (/ 1000. r))]
+     (log/info (format "Starting throttling for %s urls at %s req/sec and %s parallel threads" (count urls) r n))
      (producer urls (consumer out (pool n)) wait)
      (doseq [_ (range (count urls))]
        (let [rmap (<!! out)]
