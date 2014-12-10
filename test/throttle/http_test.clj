@@ -1,7 +1,7 @@
 (ns throttle.http-test
   (:require [midje.sweet :refer :all]
-            [throttle.http :refer :all]))
+            [throttle.http :as http]))
 
-(facts ""
-       (fact ""
-             (get ["http://google.com/?http://some.url"])))
+(facts "please"
+       (fact "write me"
+             (+ 2 2) => 2))

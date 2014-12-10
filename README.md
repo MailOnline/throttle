@@ -6,7 +6,7 @@ A request throttling library for Clojure. It comes equipped with http get reques
 
 Add:
 
-        [throttle "0.1.0"]
+        [throttle "0.1.1"]
 
 to your project.clj. Or:
 
@@ -37,20 +37,37 @@ at the REPL. Here's an example snippet:
   (def res (http/get urls 5 20))
 
   ; the response is going to be the same map of keys http-kit returns plus the elapsed
-  (map #(-> [(:elapsed %) (last (re-find #"share_count\":(\d+)" (:body %)))]) res)
+  (map #(-> [(:throttle.http/elapsed %) (last (re-find #"share_count\":(\d+)" (:body %)))]) res)
 
   ; that returns something like ([1273 "85"] [88 "245"] [112 "208"]) where the first
   ; number is the elapsed and the second are the share counts.
 
 ```
 
-Invoking http/throttle will return a map of all the keys returned by http-kit with the additional
-elasped added by throttle itself.
+Invoking http/throttle will return a map of all the keys returned by http-kit with the additional elasped added by throttle itself. To avoid potential overriding, :throttle.http/elapsed needs to be fully qualified.
 
-## TODO
+## Passing optional metadata
+
+If you need to pass additional metadata for each request apart from the url, use a map instead of a string. The only constrain is that the map should contain the :url key containing the request url:
+
+```
+;; transform each url in a map with an additional metadata info
+(http/get (map #(-> {:url % :mymeta "tada"}) urls) 20))
+
+;; metadata will reappear for each response in the :opts key
+(:mymeta (:opts (first res)))
+
+;; will print "tada"
+```
+
+## Logging
+
+Throttle will log into a configured Logback logger if one is provided. It is shipped with an example logback.sample.xml in the resource folder. Put the logback.sample.xml in the /resource folder of your project (unless you have one already) to have throttle start logging.
+
+TODO
 
 * other kind of throttling for services not necesarily on HTTP, like native ElasticSearch
-* tests: usually I have them first, but is used heavily internally and sort of tested on the field already. Anyhow, I'd like to verify some extreme scenario.
+* tests. Tricky but doable once you get an handle to the in/out channels used internally.
 
 ## License
 
