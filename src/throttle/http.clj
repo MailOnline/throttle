@@ -7,14 +7,14 @@
            [org.httpkit PrefixThreadFactory]))
 
 (defn- pool
-  "Creates the thread pool for concurrent http-kit execution."
-  ([] (pool Integer/MAX_VALUE 30))
+  "Creates the thread pool for concurrent http-kit execution. With no arguments
+  it will default to a max of +2 number of processors threads and 30 secs timeout."
+  ([] (pool (+ 2 (.availableProcessors (Runtime/getRuntime))) 30))
   ([size] (pool size 30))
   ([size timeout]
-   (let [min (max (+ 2 (.availableProcessors (Runtime/getRuntime))) size)
-         queue (LinkedBlockingQueue.)
+   (let [queue (LinkedBlockingQueue.)
          factory (PrefixThreadFactory. "throttle-worker-")]
-     (ThreadPoolExecutor. min size timeout TimeUnit/SECONDS queue factory))))
+     (ThreadPoolExecutor. 1 (if (<= size 1) 2 size) timeout TimeUnit/SECONDS queue factory))))
 
 (defn- async-get [url out pool & opts]
   "Uses a thread from pool to fetch url.
@@ -22,7 +22,7 @@
   (letfn [(callback [{:keys [opts] :as res}]
             (let [elapsed (- (System/currentTimeMillis) (::start opts))]
               (go (>! out (assoc res ::elapsed elapsed)))))]
-    (log/debug "Executing request for url" url)
+    (log/info "Executing request for url" url)
     (httpkit/get url (merge {::start (System/currentTimeMillis) ::worker-pool pool} (first opts)) callback)))
 
 (defn- consumer [out pool]
