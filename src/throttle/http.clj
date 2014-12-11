@@ -22,7 +22,7 @@
   (letfn [(callback [{:keys [opts] :as res}]
             (let [elapsed (- (System/currentTimeMillis) (::start opts))]
               (go (>! out (assoc res ::elapsed elapsed)))))]
-    (log/info "Executing request for url" url)
+    (log/debug "Executing request for url" url)
     (httpkit/get url (merge {::start (System/currentTimeMillis) ::worker-pool pool} (first opts)) callback)))
 
 (defn- consumer [out pool]
