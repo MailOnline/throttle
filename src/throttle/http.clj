@@ -40,8 +40,9 @@
 (defn- producer [reqs out w]
   "Pipes urls into out consumer channel waiting w milliseconds each"
   (go
-    (doseq [req reqs]
+    (doseq [[i req] (map-indexed #(-> [%1 %2]) reqs)]
       (<! (timeout w))
+      (when (zero? (rem i 100)) (log/info (format "Processing req %s of %s" i (count reqs))))
       (>! out req))))
 
 (defn get
