@@ -33,7 +33,7 @@
              (when req
                (let [url (if (associative? req) (:url req) req)
                      opts (if (associative? req) (dissoc req :url) {})]
-                 (async-get url out pool opts))
+                 (when url (async-get url out pool opts)))
                (recur (<! in))))
     in))
 
