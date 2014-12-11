@@ -27,7 +27,7 @@ at the REPL. Here's an example snippet:
      (str fb "http://www.foxnews.com/politics/2014/12/05/president-obama-picks-former-pentagon-official-ashton-carter-to-be-defense/")
      (str fb "http://www.nytimes.com/2014/12/06/business/economy/november-jobs-unemployment-figures.html")])
 
-  ; will retrieve them with max 10 concurrent connections at the total of 2 req/second
+  ; retrieve them with max (+ 2 NumOfProcessors) concurrent reqs at the total of 2 req/second
   (def res (http/get urls))
 
   ; will retrieve them with max 10 concurrent connections at the total of 20 req/second
@@ -62,7 +62,10 @@ If you need to pass additional metadata for each request apart from the url, use
 
 ## Logging
 
-Throttle will log into a configured Logback logger if one is provided. It is shipped with an example logback.sample.xml in the resource folder. Put the logback.sample.xml in the /resource folder of your project (unless you have one already) to have throttle start logging.
+Throttle will log into a configured Logback logger if one is provided. It is shipped with an example logback.sample.xml in the resource folder. Put the logback.sample.xml in the /resource folder of your project (unless you have one already) to have throttle start logging:
+
+* DEBUG level: will print every request made
+* INFO level: will print progress every 100 requests
 
 TODO
 
