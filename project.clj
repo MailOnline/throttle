@@ -1,4 +1,4 @@
-(defproject throttle "0.1.2"
+(defproject throttle "0.1.3"
   :description "A request throttler library for Clojure."
   :dependencies [[org.clojure/clojure "1.6.0"]
                  [http-kit "2.1.19"]
