@@ -67,13 +67,14 @@ Throttle will log into a configured Logback logger if one is provided. It is shi
 * DEBUG level: will print every request made
 * INFO level: will print progress every 100 requests
 
-TODO
+### TODO
 
-* other kind of throttling for services not necesarily on HTTP, like native ElasticSearch
+* other kind of throttling for services not necessarily on HTTP, like native ElasticSearch
+* throttling post
 * tests. Tricky but doable once you get an handle to the in/out channels used internally.
 
 ## License
 
-Copyright © 2014 Mailonline - DMGMedia
+Copyright © 2014-2015 Mailonline - DMGMedia
 
 Distributed under the Eclipse Public License either version 1.0 or `(at your option)` any later version.

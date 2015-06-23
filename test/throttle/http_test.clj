@@ -1,7 +1,13 @@
 (ns throttle.http-test
   (:require [midje.sweet :refer :all]
-            [throttle.http :as http]))
+            [org.httpkit.client :as http]
+            [org.httpkit.fake :refer :all]
+            [throttle.http :as t]))
 
-(facts "please"
-       (fact "write me"
-             (+ 2 2) => 2))
+(facts "sanity"
+       (with-fake-http ["http://google.com/" "get"]
+         (fact "get"
+               (:body (first (t/get ["http://google.com/"]))) => "get"))
+       #_(with-fake-http [{:url  "http://foo.co/" :method :post}  {:status 201 :body "post"}]
+         (fact "post"
+               (:body (first (t/post ["http://foo.co/"])) => "post"))))

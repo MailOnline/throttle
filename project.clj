@@ -1,4 +1,4 @@
-(defproject throttle "0.1.2"
+(defproject throttle "0.1.3"
   :description "A request throttler library for Clojure."
   :dependencies [[org.clojure/clojure "1.6.0"]
                  [http-kit "2.1.19"]
@@ -13,5 +13,6 @@
                          (midje.repl/autotest :filter :core (complement :slow)))}
   :aliases {"midje-fast" ["midje" ":filter" "-slow"]}
   :profiles {:dev
-             {:dependencies [[midje "1.6.3"]]
+             {:dependencies [[midje "1.6.3"]
+                             [http-kit.fake  "0.2.1"]]
               :plugins [[lein-midje "3.1.1"]]}})
