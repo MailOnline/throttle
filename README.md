@@ -15,17 +15,20 @@ to your project.clj. Or:
 at the REPL. Here's an example snippet:
 
 ```clojure
-    (ns test
-      (:require [throttle.http :as http]))
+  (ns test
+    (:require [throttle.http :as http]))
 
-    (def fb "https://api.facebook.com/method/links.getStats?format=json&urls=")
+  (def fb "https://api.facebook.com/method/links.getStats?format=json&urls=")
 
-    ;; You want to know how much buzz these news are generating on facebook
-    ;; say you have 10k of these urls:
-    (def urls [
-     (str fb "http://www.nbcnews.com/science/space/orion-spaceship-looks-good-during-first-test-road-mars-n262146")
-     (str fb "http://www.foxnews.com/politics/2014/12/05/president-obama-picks-former-pentagon-official-ashton-carter-to-be-defense/")
-     (str fb "http://www.nytimes.com/2014/12/06/business/economy/november-jobs-unemployment-figures.html")])
+  ;; You want to know how much buzz these news are generating on facebook
+  ;; say you have 10k of these urls:
+  (def fbs [
+   (str fb "http://www.nbcnews.com/science/space/orion-spaceship-looks-good-during-first-test-road-mars-n262146")
+   (str fb "http://www.foxnews.com/politics/2014/12/05/president-obama-picks-former-pentagon-official-ashton-carter-to-be-defense/")
+   (str fb "http://www.nytimes.com/2014/12/06/business/economy/november-jobs-unemployment-figures.html")])
+
+  ;; Put the urls in a map like this:
+  (def urls (map #(-> {:url %}) fbs))
 
   ; retrieve them with max (+ 2 NumOfProcessors) concurrent reqs at the total of 2 req/second
   (def res (http/get urls))
@@ -48,7 +51,7 @@ Invoking http/throttle will return a map of all the keys returned by http-kit wi
 
 ## Passing optional metadata
 
-If you need to pass additional metadata for each request apart from the url, use a map instead of a string. The only constrain is that the map should contain the :url key containing the request url:
+If you need to pass additional metadata for each request apart from the url, just put them in the map along with the url:
 
 ```
 ;; transform each url in a map with an additional metadata info
@@ -59,6 +62,8 @@ If you need to pass additional metadata for each request apart from the url, use
 
 ;; will print "tada"
 ```
+
+Use this to associate the request with some particular business ID for example.
 
 ## Logging
 

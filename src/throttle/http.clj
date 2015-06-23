@@ -31,8 +31,8 @@
   (let [in (chan)]
     (go-loop [req (<! in)]
              (when req
-               (let [url (if (associative? req) (:url req) req)
-                     opts (if (associative? req) (dissoc req :url) {})]
+               (let [url (:url req)
+                     opts (dissoc req :url)]
                  (when url (async-get url out pool opts)))
                (recur (<! in))))
     in))
