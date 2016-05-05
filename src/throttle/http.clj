@@ -1,7 +1,7 @@
 (ns throttle.http
   (:require [org.httpkit.client :as httpkit]
             [clojure.tools.logging :as log]
-            [clojure.core.async :as async :refer [<!! >! go go-loop timeout chan alt!!]])
+            [clojure.core.async :as async :refer [<! <!! >! go go-loop timeout chan alt!!]])
   (:refer-clojure :exclude [get])
   (:import [java.util.concurrent ThreadPoolExecutor LinkedBlockingQueue TimeUnit]
            [org.httpkit PrefixThreadFactory]))
