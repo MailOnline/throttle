@@ -6,7 +6,7 @@ A request throttling library for Clojure. It comes equipped with http get reques
 
 Add:
 
-        [throttle "0.1.2"]
+        [throttle "0.2.0"]
 
 to your project.clj. Or:
 
